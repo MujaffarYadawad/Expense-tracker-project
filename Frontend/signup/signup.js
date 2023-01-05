@@ -10,10 +10,10 @@
   }
   console.log(signupDetails)
   try{
-     const res = await axios.post("https://crudcrud.com/api/1b060f5b329a4d91b017bcdcc350a966/exp", signupDetails)
+     const res = await axios.post("http://localhost:3000/expense/postSignupUser", signupDetails)
      console.log(res);
-     console.log('hai')
-     if(res.status=== 201){
+     
+     if(res.status === 200){
        window.location.href="../login/login.html"  //redirect to login page
        console.log('login')
      }
