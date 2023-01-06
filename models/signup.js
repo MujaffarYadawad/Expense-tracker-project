@@ -16,9 +16,9 @@ const Signup = sequelize.define('signupUser', {
   },
   email: {
     type: Sequelize.STRING,
-    unique: true,
     allowNull: false,
-    
+    umique: true
+     
   },
   password: {
     type: Sequelize.STRING,

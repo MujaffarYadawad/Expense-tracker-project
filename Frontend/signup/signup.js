@@ -13,12 +13,13 @@
      const res = await axios.post("http://localhost:3000/expense/postSignupUser", signupDetails)
      console.log(res);
      
+     
      if(res.status === 200){
        window.location.href="../login/login.html"  //redirect to login page
        console.log('login')
      }
      else{
-      throw new Error('failed to login');
+      throw new Error('failed to Signup');
      }
   }
   catch(err){
