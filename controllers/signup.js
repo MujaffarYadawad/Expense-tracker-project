@@ -28,4 +28,34 @@ exports.postSignupUser = (async (req,res,next) =>{
   }
 } )
   
+exports.postLoginsUser = (async(req,res,next) =>{
+  console.log('e mai')
+    const email = req.body.email
+    const password = req.body.password;
+   
+
+   try {
+   
+    const res1 = await Signup.findAll({ where: { email: email } });
+   
+    //console.log(res1.length)
+    if (res1.length !== 0) {
+      const res2 = await Signup.findAll({ where: { password: password } });
+      //console.log(res2.length)
+      if (res2.length !== 0) {
+        res.json({success: true });
+        //console.log('sss')
+      } else {
+        res.json({ password: "incorrect" });
+      }
+   } else {
+      res.json({ success: false });
+    }
+    
+  }
+   catch (error) {
+    console.log(error)
+   }
+    
+})
   

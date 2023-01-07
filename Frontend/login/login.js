@@ -1,22 +1,31 @@
  async function login(event){
    event.preventDefault()
-   const email = event.target.email
-   const password = event.target.password
+   const email = event.target.email.value
+   const password = event.target.password.value
+   console.log('he mai')
+   console.log(email)
 
    const loginDetails = {
     email: email,
-    password: password
+    password: password 
    }
      console.log(loginDetails)
      try{
-      const log = await axios.post('https://crudcrud.com/api/46133d51d1a24e928badd868a141e6a1/log', loginDetails)
-      console.log(log)
-     }
+      console.log("rrr");
+      const res = await axios.post("http://localhost:3000/expense/postLoginUser", loginDetails)
+      //console.log(res)
+      //console.log('cc')
+       if (res.data.success == true) {
+         window.alert("User Logged In Successfully");
+        } else if (res.data.password == "incorrect") {
+          window.alert("Password is Incorrect");
+        } else {
+          window.alert("User Not Registered");
+        } 
+     
+     } 
      catch(err){
       console.log(err)
      }
-      
-
-     
     
-}
+  }

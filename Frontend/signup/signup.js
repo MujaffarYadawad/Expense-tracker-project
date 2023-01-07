@@ -14,8 +14,8 @@
      console.log(res);
      
      
-     if(res.status === 201){
-       window.location.href="../login/login.html"  //redirect to login page
+     if(res.status === 200){
+       window.location.href="../login/login.html" //redirect to login page
        console.log('login')
      }
      else{
