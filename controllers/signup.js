@@ -1,5 +1,7 @@
 
 const Signup = require('../models/signup') 
+const bcrpt = require('bcrypt')
+const saltRounds = 10;
 
   
 exports.postSignupUser = (async (req,res,next) =>{
@@ -9,20 +11,22 @@ exports.postSignupUser = (async (req,res,next) =>{
  
   
   try {
-     const response = await Signup.findAll({ where: { email: email } });
-     console.log(response);
-     if(response.length === 0 ){
-     await Signup.create({
-        name: name,
-        email: email,
-        password: password,
-        
-      });
-       res.json({ alreadyexisting: false });
-     }
-     else{
-      res.json({ alreadyexisting: true });
-     }
+    bcrpt.hash(password, saltRounds, async (err, hash) =>{
+         const response = await Signup.findAll({ where: { email: email } });
+         console.log(response);
+         if (response.length === 0) {
+           await Signup.create({
+             name: name,
+             email: email,
+             password: hash,
+           });
+           res.json({ alreadyexisting: false });
+         } else {
+           res.json({ alreadyexisting: true });
+         }
+
+    })
+  
   } catch (error) {
     console.log(error)
   }
@@ -36,18 +40,26 @@ exports.postLoginsUser = (async(req,res,next) =>{
 
    try {
    
-    const res1 = await Signup.findAll({ where: { email: email } });
+    const user = await Signup.findAll({ where: { email: email } });
    
     //console.log(res1.length)
-    if (res1.length !== 0) {
+    if (user.length !== 0) {
       const res2 = await Signup.findAll({ where: { password: password } });
+      bcrpt.compare(password, user[0].password, async function (err, result) {
+        if(err){
+          console.log(err)
+        }
+           
       //console.log(res2.length)
-      if (res2.length !== 0) {
+      if (result === true) {
         res.json({success: true });
         //console.log('sss')
       } else {
         res.json({ password: "incorrect" });
       }
+
+      })
+   
    } else {
       res.json({ success: false });
     }
