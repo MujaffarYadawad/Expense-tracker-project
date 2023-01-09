@@ -1,11 +1,10 @@
  form {
-   background-color: rgb(241, 174, 48);
+   background-color: rgb(171, 225, 117);
    text-align: center;
  }
 
- 
  input {
    font-size: 30px;
-   color: rgb(45, 50, 45);
+   color: green;
    width: 550px;
  }

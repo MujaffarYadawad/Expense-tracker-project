@@ -13,13 +13,15 @@
      const res = await axios.post("http://localhost:3000/expense/postSignupUser", signupDetails)
      console.log(res);
      
-     
-     if(res.status === 200){
-       window.location.href="../login/login.html" //redirect to login page
-       console.log('login')
+      
+     if(res.data.alreadyexisting === false){    //if user not existed then only creat new user
+      console.log('ssuc')
+      window.alert('Account is crated succussfully')
+      window.location.href="../html/login.html";  // redirect to login page
+      console.log('login')
      }
      else{
-      throw new Error('failed to Signup');
+      throw new Error('failed to Signup , account is already exist');
      }
   }
   catch(err){

@@ -3,7 +3,6 @@ const Signup = require('../models/signup')
 const bcrpt = require('bcrypt')
 const saltRounds = 10;
 
-  
 exports.postSignupUser = (async (req,res,next) =>{
   const name = req.body.name;
   const email = req.body.email;
@@ -19,7 +18,7 @@ exports.postSignupUser = (async (req,res,next) =>{
              name: name,
              email: email,
              password: hash,
-           });
+           })
            res.json({ alreadyexisting: false });
          } else {
            res.json({ alreadyexisting: true });

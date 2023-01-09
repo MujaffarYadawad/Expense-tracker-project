@@ -2,8 +2,8 @@
    event.preventDefault()
    const email = event.target.email.value
    const password = event.target.password.value
-   console.log('he mai')
-   console.log(email)
+   
+   //console.log(email)
 
    const loginDetails = {
     email: email,
@@ -17,6 +17,7 @@
       //console.log('cc')
        if (res.data.success == true) {
          window.alert("User Logged In Successfully");
+         window.location.href = "../html/index.html"
         } else if (res.data.password == "incorrect") {
           window.alert("Password is Incorrect");
         } else {
