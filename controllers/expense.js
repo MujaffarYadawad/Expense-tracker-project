@@ -3,7 +3,7 @@ const Expense = require('../models/expense');
 
 exports.getExpense = (async(req,res,next) =>{
    try{
-    const data = await Expense.findAll();
+    const data = await Expense.findAll({where : { userId : req.user.id}});
     res.json(data);
    }
    catch(err){
@@ -13,14 +13,17 @@ exports.getExpense = (async(req,res,next) =>{
 
 exports.postExpense = (async(req,res,next) => {
  try{
+  
   const expenseAmount = req.body.expenseAmount;
   const expenseDescription = req.body.expenseDescription;
   const category = req.body.category;
+   
 
-  const data = await Expense.create({
+  const data = await req.user.createExpense({
     expenseAmount : expenseAmount,
     expenseDescription : expenseDescription,
-    category : category
+    category : category,
+  
   })
   res.json(data);
 } 
@@ -33,8 +36,15 @@ exports.postExpense = (async(req,res,next) => {
 exports.deleteExpense = ( async (req,res,next) => {
   try {
     const expId = req.params.id
-    const data = await Expense.destroy({ where: {id: expId}});    // res.destroy();   is direct item in try carch 
-      res.sendStatus(200);   
+
+   // console.log('expId id',expId)
+
+    
+     const data = await Expense.destroy({ where: { id: expId}}); 
+     
+    res.status(200).json({ success: true, message: "exspense is deleted successfully" });  
+ 
+    
      
     
     } 

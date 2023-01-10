@@ -10,7 +10,7 @@
   }
   console.log(signupDetails)
   try{
-     const res = await axios.post("http://localhost:3000/expense/postSignupUser", signupDetails)
+     const res = await axios.post("http://localhost:3000/user/postUser", signupDetails)
      console.log(res);
      
       
