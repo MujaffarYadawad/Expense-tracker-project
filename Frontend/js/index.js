@@ -1,3 +1,4 @@
+ 
 const token = localStorage.getItem("token");
 
 function saveToLocalStorage(event) {
@@ -70,3 +71,45 @@ function removeFromScreen(itemId) {
 
   parentNode.removeChild(childNodeToBeDeleted);
 }
+
+document.getElementById("razorpay-btn").onclick = async function(e) {
+  response = await axios.get('http://localhost:3000/purchase/premiumMembership', {headers:{'Authorization':token}})
+  console.log(response)
+  var options = {
+    "key": response.data.key_id, // Enter the key id generated from dashboard
+    "order_id": response.data.order.id, //for one timef payment
+    "prefill": {
+      "name": "Test User",
+      "email": "test.user@example.com",
+      "contact": "9999999999",
+    },
+
+    handler: async function (response) {
+      await axios
+        .post(
+          "http://localhost:3000/purchase/updateTransactonStatus",
+          {
+            order_id: options.order_id,
+            payment_id: response.razorpay_payment_id,
+          },
+          { headers: { Authorization: token } }
+        )
+        .then(() => {
+          alert("You are a Premiem User Now");
+        });
+    },
+  };
+
+  const rzp1 = new Razorpay(options);
+  rzp1.open();
+
+  e.preventDefault();
+
+  rzp1.on("paynemet.failed", function (response) {
+    console.log(response);
+    alert("something went wrong");
+  });
+
+};
+
+
