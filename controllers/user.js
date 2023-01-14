@@ -3,8 +3,8 @@ const bcrpt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const saltRounds = 10;
 
-function generateAcceessToken(id) {
-  return jwt.sign({ userId: id }, "secretKey");
+function generateAcceessToken(id, name, ispremiumuser) {
+  return jwt.sign({ userId: id , name: name, ispremiumuser  }, "secretKey");
 }
 
 exports.postUser = async (req, res, next) => {
@@ -33,7 +33,7 @@ exports.postUser = async (req, res, next) => {
 };
 
 exports.postLoginsUser = async (req, res, next) => {
-  console.log("e mai");
+  //console.log("e mai");
   const email = req.body.email;
   const password = req.body.password;
 
@@ -50,7 +50,7 @@ exports.postLoginsUser = async (req, res, next) => {
 
         //console.log(res2.length)
         if (result === true) {
-          res.json({ success: true, token: generateAcceessToken(user[0].id) });
+          res.json({ success: true, token: generateAcceessToken(user[0].id, user[0].name, user[0].ispremiumuser) });
           //console.log('sss')
         } else {
           res.json({ password: "incorrect" });

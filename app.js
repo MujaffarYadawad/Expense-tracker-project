@@ -7,6 +7,7 @@ const app = express();
 const userRoutes = require("./routes/user");
 const expenseRoutes = require("./routes/expense");
 const buyPremium = require('./routes/purchase')
+const premiumRoutes = require('./routes/premiumFeature')
 
 app.use(bodyParser.json({ extended: false }));
 app.use(cors());
@@ -19,7 +20,8 @@ const Order = require("./models/orders");
 
 app.use("/user", userRoutes);
 app.use("/expense", expenseRoutes);
-app.use("/purchase", buyPremium)
+app.use("/purchase", buyPremium);
+app.use("/premium", premiumRoutes);
 
 User.hasMany(Expense);
 Expense.belongsTo(User);
