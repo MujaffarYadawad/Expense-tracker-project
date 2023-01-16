@@ -10,7 +10,7 @@ const authenticate = async (req, res, next) => {
     const token = req.header("Authorization");
     console.log(token);
     const user = jwt.verify(token, process.env.TOKEN_SECRET);
-    console.log("user id is", user);
+    //console.log("user id is", user);
     // console.log("signupuserId>>>", user.userId);
 
     const user1 = await User.findByPk(user.userId);
