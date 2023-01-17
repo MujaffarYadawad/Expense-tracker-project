@@ -1,5 +1,6 @@
 const uuid = require('uuid');
 const sgMail = require("@sendgrid/mail");
+const bcrypt = require('bcrypt');
 
 
 const User = require('../models/signup')
@@ -71,4 +72,48 @@ exports.forgotPassword = async (req, res, next) => {
   }
 }
 
+exports.resetPassword = async (req, res, next) => {
+  const id = req.params.id;
+  const request = await ForgotPassword.findOne({ where: { id } });
+  if (request) {
+    request.update({ active: false });
+    res.send(`<html>
+                        <form action="/password/updatepassword/${id}" method="get">
+                            <label for="newpassword">Enter New password</label>
+                            <input name="newpassword" type="password" required></input>
+                            <button>reset password</button>
+                        </form>
+                    </html>`);
+  }
+};
+
+exports.updatePassword = async (req, res, next) => {
+  try {
+    
+    const newPassword = req.query.newpassword;
+   // console.log('new password-->', newPassword);
+    const id = req.params.rid;
+   // console.log('id-->', id)
+    const request = await ForgotPassword.findAll({ where: { id: id } });
+   // console.log('req-->',request);
+    const user = await User.findAll({ where: { id: request[0].userId } });
+   //  console.log('user-->',user);
+    if (user) {
+      const saltRounds = 10;
+      bcrypt.hash(newPassword, saltRounds, async function (err, hash) {
+        if(err){
+          console.log(err);
+          throw new Error(err);
+        }
+        await User.update({ password: hash }, { where: { id: request[0].userId}})
+         res.status(201).json({message: 'Successfuly update the new password'})
+        
+      });
+    } else {
+      return res.status(404).json({ error: "No User Exist", success: false });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
  
