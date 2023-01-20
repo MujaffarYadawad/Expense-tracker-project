@@ -74,7 +74,7 @@ window.addEventListener("DOMContentLoaded", () => {
   if(ispremiumuser){
     showPremiuMessage()
     showLeaderboard()
-    download()
+ 
 
   }
   // getting expenses
@@ -128,20 +128,20 @@ function removeFromScreen(itemId) {
  async function download() {
   try {
     //console.log("dowload report");
-    const response = await axios.get("http://localhost:3000/user/download", {headers: { Authorization: token }});
+    const response = await axios.get("http://localhost:3000/expense/download", {headers: { Authorization: token }});
 
-    if (response.status === 201) {
+    if (response.status === 200) {
       //the bcakend is essentially sending a download link
       //  which if we open in browser, the file would download
-      var a = document.createElement("a");
-      a.href = response.data.fileUrl;
+      var a = document.createElement('a');
+      a.href = response.data.fileURL;
       a.download = "myexpense.csv";
       a.click();
     } else {
       throw new Error(response.data.message);
     }
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.log(err);
   }
 };
 
@@ -175,7 +175,7 @@ document.getElementById("rzp-btn").onclick = async function(e) {
            console.log("pp user");
            localStorage.setItem('isadmin', true)
            showLeaderboard();
-           download();
+          
          
         
     },
