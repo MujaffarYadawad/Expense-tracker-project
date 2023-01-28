@@ -1,5 +1,11 @@
  
+
+ 
 const token = localStorage.getItem("token");
+
+const pagination = document.getElementById("pagination");
+
+const parentNode = document.getElementById("allExpenses");
 
 function saveToLocalStorage(event) {
   event.preventDefault();
@@ -44,6 +50,8 @@ function showLeaderboard() {
     
   };
 }
+
+
 function showPremiuMessage() {
   document.getElementById("rzp-btn").style.visibility = "hidden";
   document.getElementById("message").innerHTML = "You are a premium user";
@@ -51,6 +59,8 @@ function showPremiuMessage() {
 //   const parent = document.getElementById("message") 
 //   parent.removeChild(child)
 }
+
+
 function parseJwt (token) {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -62,11 +72,15 @@ function parseJwt (token) {
 }
  
 
+
+
 window.addEventListener("DOMContentLoaded", () => {
 
   // premium  user 
   const isadmin = localStorage.getItem('isadmin')
   const decodeToken = parseJwt(token)
+   let page=1;
+   getExpense(page);
 
  // console.log('decodeToken-->',decodeToken)
 
@@ -78,15 +92,53 @@ window.addEventListener("DOMContentLoaded", () => {
 
   }
   // getting expenses
-  axios.get("http://localhost:3000/expense/getExpenses", {headers:{'Authorization':token}})
-    .then((res) => {
-      for (var i = 0; i < res.data.length; i++) {
-        showItemsOnScreen(res.data[i]);
-      }
-      console.log(res);
-    })
-    .catch((err) => console.log(err));
+  // axios.get("http://localhost:3000/expense/getExpenses?page=${page}", {headers:{'Authorization':token}})
+  //   .then((res) => {
+  //     for (var i = 0; i < res.data.val.length; i++) {
+  //       showItemsOnScreen(res.data.val[i]);
+  //     }
+  //     console.log(res);
+
+  //    showPagination(
+  //      res.data.currentPage,
+  //      res.data.hasNextPage,
+  //      res.data.hasPreviousPage,
+  //      res.data.lastPage,
+  //      res.data.nextPage,
+  //      res.data.previousPage
+  //    );
+  //    if (res.data.isPremium == true) {
+  //      document.getElementById("rzp-btn").style.display = "none";
+  //    } else {
+  //      button();
+  //    }
+  //   })
+  //   .catch((err) => console.log(err));
 });
+
+
+async function getExpense(page) {
+  try {
+    const res = await axios.get("http://localhost:3000/expense/getAllExpenses?page=${page}",{ headers: { Authorization: token } });
+   // console.log('ress',res)
+    parentNode.innerHTML = "";
+
+    for (var i = 0; i < res.data.val.length; i++) {
+      showItemsOnScreen(res.data.val[i]);
+    }
+    console.log(res);
+
+    showPagination( res.data.currentPage, res.data.hasNextPage, res.data.nextPage, res.data.hasPreviousPage, res.data.previousPage, res.data.lastPage)
+    
+    if (res.data.isPremium == true) {
+      document.getElementById("rzp-btn").style.display = "none";
+    } else {
+      button();
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
 
 function showItemsOnScreen(item) {
   document.getElementById("expenseAmount").value = "";
@@ -145,6 +197,40 @@ function removeFromScreen(itemId) {
   }
 };
 
+function button() {
+  document.getElementById("leaderboard").style.display = "none";
+  document.getElementById("downloadexpense").style.display = "none";
+}
+
+function showPagination(currentPage,hasNextPage, nextPage, hasPreviousPage,  previousPage, lastPage) {
+
+  console.log('paination' )
+  pagination.innerHTML = " ";
+
+  if (hasPreviousPage) {
+    const button2 = document.createElement("button");
+    button2.classList.add("active");
+    button2.innerHTML = previousPage;
+    button2.addEventListener("click", () => getExpense(previousPage));
+    pagination.appendChild(button2);
+  }
+
+  const button1 = document.createElement("button");
+  button1.classList.add("active");
+  button1.innerHTML = `<h3>${currentPage}<h3>`;
+
+  button1.addEventListener("click", () => getExpense(currentPage));
+  pagination.appendChild(button1);
+
+  if (hasNextPage) {
+    const button3 = document.createElement("button");
+   // button3.classList.add("active");
+    button3.innerHTML = nextPage;
+    button3.addEventListener("click", () => getExpense(nextPage));
+    pagination.appendChild(button3);
+  }
+}
+
 document.getElementById("rzp-btn").onclick = async function(e) {
   response = await axios.get('http://localhost:3000/purchase/premiumMembership', {headers:{'Authorization':token}})
   console.log(response)
@@ -192,5 +278,8 @@ document.getElementById("rzp-btn").onclick = async function(e) {
   });
 
 };
+
+  document.getElementById("leaderboard").style.display = "visible";
+  document.getElementById("downloadexpense").style.display = "visible";
 
 

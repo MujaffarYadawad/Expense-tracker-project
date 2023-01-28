@@ -2,6 +2,8 @@ const Expense = require("../models/expense");
 const UserServices =  require('../services/userservices');
 const S3Service = require ('../services/S3services');
 
+  
+
 
 exports.downloadExpense = async (req, res, next) => {
   try {
@@ -25,10 +27,40 @@ exports.downloadExpense = async (req, res, next) => {
   
 };
 
-exports.getExpense = async (req, res, next) => {
+exports.getAllExpense = async (req, res, next) => {
   try {
+       var ITEMS_Per_Page = 3;
+        var page = +req.query.page || 1;
+   // console.log(req.user.id, ' users id')
+    
     const data = await Expense.findAll({ where: { userId: req.user.id } });
-    res.json(data);
+
+   // console.log(data,' data ');
+
+   // res.json({ val: data, isPremium: req.user.ispremiumuser });
+    var totalItems = await req.user.countExpenses();
+    // console.log('val-->', val)
+        
+   var val = await req.user.getExpenses({
+     offset: (page - 1) * ITEMS_Per_Page,
+     limit: ITEMS_Per_Page
+   });
+
+      console.log('val -->', val)
+      console.log('totalItems-->', totalItems)
+      console.log("next page-->", totalItems > page * ITEMS_Per_Page);
+    
+    res.json({
+      val: val,
+      isPremium: req.user.ispremiumuser,
+      currentPage: page,
+      hasNextPage:   totalItems > page * ITEMS_Per_Page  ,
+      nextPage: page + 1,
+      hasPreviousPage: page > 1,
+      previousPage: +page - 1,
+     // lastPage: Math.ceil(totalItems / ITEMS_Per_Page),
+    });
+
   } catch (err) {
     console.log(err);
   }

@@ -8,7 +8,7 @@ const e = require('cors');
 const router=express.Router();
 
 router.post('/postExpenses', userAuthentication.authenticate, expneseController.postExpense);
-router.get('/getExpenses', userAuthentication.authenticate, expneseController.getExpense);
+router.get('/getAllExpenses', userAuthentication.authenticate, expneseController.getAllExpense);
 router.delete('/deleteExpenses/:id', userAuthentication.authenticate, expneseController.deleteExpense);
 router.get('/download', userAuthentication.authenticate, expneseController.downloadExpense);
 
