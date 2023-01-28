@@ -4,8 +4,8 @@
 const token = localStorage.getItem("token");
 
 const pagination = document.getElementById("pagination");
-
-const parentNode = document.getElementById("allExpenses");
+  const parentNode = document.getElementById("listOfItems");
+//const parentNode = document.getElementById("allExpenses");
 
 function saveToLocalStorage(event) {
   event.preventDefault();
@@ -119,7 +119,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 async function getExpense(page) {
   try {
-    const res = await axios.get("http://localhost:3000/expense/getAllExpenses?page=${page}",{ headers: { Authorization: token } });
+    const res = await axios.get(`http://localhost:3000/expense/getAllExpenses?page=${page}`,{ headers: { Authorization: token } });
    // console.log('ress',res)
     parentNode.innerHTML = "";
 
@@ -145,7 +145,7 @@ function showItemsOnScreen(item) {
   document.getElementById("expenseDescription").value = "";
   document.getElementById("category").value = "";
 
-  const parentNode = document.getElementById("listOfItems");
+
   const childHTML = `<li id=${item.id}> ${item.expenseAmount} - ${item.expenseDescription} - ${item.category} 
                         <button onclick=deleteItem('${item.id}')>Delete</button>
                         <button onclick=editItem('${item.expenseAmount}','${item.expenseDescription}','${item.category}','${item.id}')>Edit</button>
