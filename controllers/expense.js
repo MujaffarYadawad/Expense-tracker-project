@@ -7,6 +7,7 @@ const S3Service = require ('../services/S3services');
 
 exports.downloadExpense = async (req, res, next) => {
   try {
+
       const expenses = await  UserServices.getExpenses(req)  //req.user.getExpenses();
      // console.log("expensees -->", expenses);
       const stringifiedExpensese = JSON.stringify(expenses);
@@ -29,8 +30,12 @@ exports.downloadExpense = async (req, res, next) => {
 
 exports.getAllExpense = async (req, res, next) => {
   try {
-       var ITEMS_Per_Page = 3;
+       
+
+       
         var page = +req.query.page || 1;
+        let ITEMS_Per_Page = +req.query.expPerPage  ;
+              // console.log("exp per page-->", ITEMS_Per_Page);
    // console.log(req.user.id, ' users id')
     
     const data = await Expense.findAll({ where: { userId: req.user.id } });
@@ -46,9 +51,9 @@ exports.getAllExpense = async (req, res, next) => {
      limit: ITEMS_Per_Page
    });
 
-      console.log('val -->', val)
-      console.log('totalItems-->', totalItems)
-      console.log("next page-->", totalItems > page * ITEMS_Per_Page);
+      // console.log('val -->', val)
+      // console.log('totalItems-->', totalItems)
+      // console.log("next page-->", totalItems > page * ITEMS_Per_Page);
     
     res.json({
       val: val,

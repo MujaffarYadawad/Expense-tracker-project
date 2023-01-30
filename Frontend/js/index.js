@@ -4,8 +4,17 @@
 const token = localStorage.getItem("token");
 
 const pagination = document.getElementById("pagination");
-  const parentNode = document.getElementById("listOfItems");
+const parentNode = document.getElementById("listOfItems");
 //const parentNode = document.getElementById("allExpenses");
+function rowChange(event) {
+   event.preventDefault()
+  console.log(event.target.value, "value");
+  console.log(typeof event.target.value);
+  const rowValue = Number(event.target.value);
+  console.log(typeof rowValue);
+  localStorage.setItem("expPerPage", rowValue);
+  location.reload();
+}
 
 function saveToLocalStorage(event) {
   event.preventDefault();
@@ -80,8 +89,11 @@ window.addEventListener("DOMContentLoaded", () => {
   const isadmin = localStorage.getItem('isadmin')
   const decodeToken = parseJwt(token)
    let page=1;
-   getExpense(page);
-
+   const rowValue = localStorage.getItem("expPerPage");
+  let expPerPage = rowValue;
+  console.log('expense per page-->', expPerPage)
+   getExpense(page, expPerPage);
+ 
  // console.log('decodeToken-->',decodeToken)
 
   const ispremiumuser = decodeToken.ispremiumuser
@@ -117,9 +129,9 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 
-async function getExpense(page) {
+async function getExpense(page, expPerPage) {
   try {
-    const res = await axios.get(`http://localhost:3000/expense/getAllExpenses?page=${page}`,{ headers: { Authorization: token } });
+    const res = await axios.get(`http://localhost:3000/expense/getAllExpenses?page=${page}&expPerPage=${expPerPage}`,{ headers: { Authorization: token } });
    // console.log('ress',res)
     parentNode.innerHTML = "";
 

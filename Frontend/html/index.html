@@ -48,8 +48,22 @@
   <div class="expense">
     <ul id="allExpenses" class="list1"></ul>
     <div id="pagination" class="pagination"></div>
-  </div>
+  </div> 
+
+  <br/>
   
+    <div id="pagelist">
+      <label for="price">Rows Per Page</label>
+      <select name="price" id="price" onchange="rowChange(event)">
+        <option value='0'>0</option>
+        <option value='2'>2</option>
+        <option value='4'>4</option>
+        <option value='6'>6</option>
+      </select>
+    </div>
+   
+    <br />
+    
   <button onclick="download()" id="downloadexpense" class=hidden>Download File</button>
   
   <div id='leaderboard'> 
