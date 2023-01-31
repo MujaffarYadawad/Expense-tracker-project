@@ -5,20 +5,29 @@ const sequelize = require("../util/database");
 exports.getUserLeaderBoard = async (req, res) => {
   try {
     const leaderboardusers = await User.findAll({
-      attributes: ['id', 'name', [sequelize.fn('sum', sequelize.col('expenses.expenseAmount')), 'total_cost']],
+      attributes: [
+        "id",
+        "name",
+        [
+          sequelize.fn("sum", sequelize.col("expenses.expenseAmount")),
+          "total_cost",
+        ],
+      ],
       include: [
         {
           model: Expense,
-          attributes: []
-        }
+          attributes: [],
+        },
       ],
-      group:  ['user.id']
+      group: ["user.id"],
+      order: [["total_cost", "DESC"]],
     });
-    const expenses = await Expense.findAll({
-      attributes : ['userId', [sequelize.fn('sum', sequelize.col('expenses.expenseAmount')), 'total_cost']],
-      group: ['userId'],
-      order: [['total_cost', 'DESC']]
-    });
+    
+    // const expenses = await Expense.findAll({
+    //   attributes : ['userId', [sequelize.fn('sum', sequelize.col('expenses.expenseAmount')), 'total_cost']],
+    //   group: ['userId'],
+    //   order: [['total_cost', 'DESC']]
+    // });
     //const userAggregatedExpenses = {}
     //console.log('user-->', users)
     //console.log("expense-->", expenses);
