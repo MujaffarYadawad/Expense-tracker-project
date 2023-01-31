@@ -33,12 +33,12 @@ exports.getAllExpense = async (req, res, next) => {
        
 
        
-        var page = +req.query.page || 1;
-        let ITEMS_Per_Page = +req.query.expPerPage  ;
+        let page = +req.query.page || 1;
+        let ITEMS_Per_Page = +req.query.expPerPage  || 3;
               // console.log("exp per page-->", ITEMS_Per_Page);
    // console.log(req.user.id, ' users id')
     
-    const data = await Expense.findAll({ where: { userId: req.user.id } });
+    //const data = await Expense.findAll({ where: { userId: req.user.id } });
 
    // console.log(data,' data ');
 
@@ -63,7 +63,7 @@ exports.getAllExpense = async (req, res, next) => {
       nextPage: page + 1,
       hasPreviousPage: page > 1,
       previousPage: +page - 1,
-     // lastPage: Math.ceil(totalItems / ITEMS_Per_Page),
+      lastPage: Math.ceil(totalItems / ITEMS_Per_Page),
     });
 
   } catch (err) {
