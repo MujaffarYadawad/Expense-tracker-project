@@ -131,6 +131,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
 async function getExpense(page, expPerPage) {
+  console.log('exp page', expPerPage)
   try {
     const res = await axios.get(`http://localhost:3000/expense/getAllExpenses?page=${page}&expPerPage=${expPerPage}`,{ headers: { Authorization: token } });
     console.log('ress',res)
@@ -144,7 +145,7 @@ async function getExpense(page, expPerPage) {
     }
     console.log(res);
 
-    showPagination( res.data.currentPage, res.data.hasNextPage, res.data.nextPage, res.data.hasPreviousPage, res.data.previousPage, res.data.lastPage)
+    showPagination( res.data.currentPage, res.data.hasNextPage, res.data.nextPage, res.data.hasPreviousPage, res.data.previousPage, res.data.lastPage, expPerPage)
     
     if (res.data.isPremium == true) {
       document.getElementById("rzp-btn").style.display = "none";
@@ -228,7 +229,7 @@ function button() {
   document.getElementById("downloadexpense").style.display = "none";
 }
 
-function showPagination(currentPage,hasNextPage, nextPage, hasPreviousPage,  previousPage, lastPage) {
+function showPagination(currentPage,hasNextPage, nextPage, hasPreviousPage,  previousPage, lastPage, expPerPage) {
 
   console.log('paination' )
   pagination.innerHTML = " ";
@@ -237,7 +238,7 @@ function showPagination(currentPage,hasNextPage, nextPage, hasPreviousPage,  pre
     const button2 = document.createElement("button");
     button2.classList.add("active");
     button2.innerHTML = previousPage;
-    button2.addEventListener("click", () => getExpense(previousPage));
+    button2.addEventListener("click", () => getExpense(previousPage, expPerPage));
     pagination.appendChild(button2);
   }
 
@@ -245,14 +246,14 @@ function showPagination(currentPage,hasNextPage, nextPage, hasPreviousPage,  pre
   button1.classList.add("active");
   button1.innerHTML = `<h3>${currentPage}<h3>`;
 
-  button1.addEventListener("click", () => getExpense(currentPage));
+  button1.addEventListener("click", () => getExpense(currentPage, expPerPage));
   pagination.appendChild(button1);
 
   if (hasNextPage) {
     const button3 = document.createElement("button");
    // button3.classList.add("active");
     button3.innerHTML = nextPage;
-    button3.addEventListener("click", () => getExpense(nextPage));
+    button3.addEventListener("click", () => getExpense(nextPage, expPerPage));
     pagination.appendChild(button3);
   }
 }
