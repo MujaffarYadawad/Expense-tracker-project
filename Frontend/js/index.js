@@ -5,7 +5,8 @@ const token = localStorage.getItem("token");
 
 const pagination = document.getElementById("pagination");
 const parentNode = document.getElementById("listOfItems");
-//const parentNode = document.getElementById("allExpenses");
+
+ 
 function rowChange(event) {
    event.preventDefault()
   console.log(event.target.value, "value");
@@ -100,7 +101,7 @@ window.addEventListener("DOMContentLoaded", () => {
   if(ispremiumuser){
     showPremiuMessage()
     showLeaderboard()
- 
+    
 
   }
   // getting expenses
@@ -132,11 +133,14 @@ window.addEventListener("DOMContentLoaded", () => {
 async function getExpense(page, expPerPage) {
   try {
     const res = await axios.get(`http://localhost:3000/expense/getAllExpenses?page=${page}&expPerPage=${expPerPage}`,{ headers: { Authorization: token } });
-   // console.log('ress',res)
+    console.log('ress',res)
     parentNode.innerHTML = "";
 
     for (var i = 0; i < res.data.val.length; i++) {
       showItemsOnScreen(res.data.val[i]);
+    }
+    for (var i = 0; i < res.data.downloadedFilesData.length; i++) {
+      showDownloadedFilesOnScreen(res.data.downloadedFilesData[i]);
     }
     console.log(res);
 
@@ -165,6 +169,16 @@ function showItemsOnScreen(item) {
 
   parentNode.innerHTML = parentNode.innerHTML + childHTML;
 }
+
+function showDownloadedFilesOnScreen(data) {
+
+  const urlList = document.getElementById("listofdownloadedfiles");
+  var date = new Date(data.createdAt);
+   urlList.innerHTML = " "
+  urlList.innerHTML += ` <li><a href="${data.URL}" download='myexpense.csv' >Last Download On: ${date}</a></li> `;
+ 
+}
+
 
 function editItem(expenseAmount, expenseDescription, category, itemId) {
   document.getElementById("expenseAmount").value = expenseAmount;

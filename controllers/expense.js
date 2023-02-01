@@ -1,7 +1,7 @@
 const Expense = require("../models/expense");
 const UserServices =  require('../services/userservices');
 const S3Service = require ('../services/S3services');
-
+const downloadfiles = require("../models/downloadFiles");
   
 
 
@@ -16,7 +16,9 @@ exports.downloadExpense = async (req, res, next) => {
       const userId = req.user.id;
       const filename = `Expenses${userId}/${new Date()}.txt`;
       const fileURL = await S3Service.uploadToS3(stringifiedExpensese, filename);
-    //  console.log("fileURL --> ", fileURL);
+      console.log("fileURL --> ", fileURL);
+      const previouseFiles = await downloadfiles.create({URL:fileURL , userId: req.user.id}) // storing the links in table
+
       res.status(200).json({ fileURL, success: true });
 
   }
@@ -35,36 +37,28 @@ exports.getAllExpense = async (req, res, next) => {
        
         let page = +req.query.page || 1;
         let ITEMS_Per_Page = +req.query.expPerPage  || 3;
-              // console.log("exp per page-->", ITEMS_Per_Page);
-   // console.log(req.user.id, ' users id')
-    
-    //const data = await Expense.findAll({ where: { userId: req.user.id } });
-
-   // console.log(data,' data ');
-
-   // res.json({ val: data, isPremium: req.user.ispremiumuser });
-    var totalItems = await req.user.countExpenses();
-    // console.log('val-->', val)
+ 
+       var totalItems = await req.user.countExpenses();
         
-   var val = await req.user.getExpenses({
-     offset: (page - 1) * ITEMS_Per_Page,
-     limit: ITEMS_Per_Page
-   });
-
-      // console.log('val -->', val)
-      // console.log('totalItems-->', totalItems)
-      // console.log("next page-->", totalItems > page * ITEMS_Per_Page);
+       var val = await req.user.getExpenses({
+        offset: (page - 1) * ITEMS_Per_Page,
+          limit: ITEMS_Per_Page
+       });
+   
+       const downloadedFiles =  await downloadfiles.findAll({where : { userId: req.user.id}})  //geting the links stored in tabel
+ 
     
-    res.json({
+      res.json({
       val: val,
       isPremium: req.user.ispremiumuser,
       currentPage: page,
-      hasNextPage:   totalItems > page * ITEMS_Per_Page  ,
+      hasNextPage: totalItems > page * ITEMS_Per_Page,
       nextPage: page + 1,
       hasPreviousPage: page > 1,
       previousPage: +page - 1,
       lastPage: Math.ceil(totalItems / ITEMS_Per_Page),
-    });
+      downloadedFilesData : downloadedFiles
+      });
 
   } catch (err) {
     console.log(err);
