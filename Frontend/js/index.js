@@ -100,33 +100,9 @@ window.addEventListener("DOMContentLoaded", () => {
   const ispremiumuser = decodeToken.ispremiumuser
   if(ispremiumuser){
     showPremiuMessage()
-    showLeaderboard()
-    
-
+    showLeaderboard()  
   }
-  // getting expenses
-  // axios.get("http://localhost:3000/expense/getExpenses?page=${page}", {headers:{'Authorization':token}})
-  //   .then((res) => {
-  //     for (var i = 0; i < res.data.val.length; i++) {
-  //       showItemsOnScreen(res.data.val[i]);
-  //     }
-  //     console.log(res);
-
-  //    showPagination(
-  //      res.data.currentPage,
-  //      res.data.hasNextPage,
-  //      res.data.hasPreviousPage,
-  //      res.data.lastPage,
-  //      res.data.nextPage,
-  //      res.data.previousPage
-  //    );
-  //    if (res.data.isPremium == true) {
-  //      document.getElementById("rzp-btn").style.display = "none";
-  //    } else {
-  //      button();
-  //    }
-  //   })
-  //   .catch((err) => console.log(err));
+ 
 });
 
 

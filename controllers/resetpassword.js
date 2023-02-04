@@ -42,7 +42,7 @@ exports.forgotPassword = async (req, res, next) => {
           text: "and easy to do anywhere, even with Node.js",
           html: `<a href="http://localhost:3000/password/resetpassword/${id}">Reset password</a>`,
         };
-       // console.log('msg-->', msg)
+       console.log('msg-->', msg)
 
         sgMail
           .send(msg)
