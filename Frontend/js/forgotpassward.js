@@ -11,7 +11,7 @@
    //console.log(userDetails);
 
    try {
-     const res = await axios.post("http://localhost:3000/password/forgotpassword", userDetails)
+     const res = await axios.post("https://localhost:3000/password/forgotpassword", userDetails)
 
 
      console.log(res)

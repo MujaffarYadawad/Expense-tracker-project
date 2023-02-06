@@ -6,6 +6,8 @@ const cors = require("cors");
 const dotenv = require('dotenv')
 const helmet = require('helmet')
 const morgan = require('morgan')
+const https = require('https');
+
 
 dotenv.config();
 const app = express();
@@ -19,6 +21,7 @@ const resetPasswordRoutes = require("./routes/resetpassword");
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'),
  { flags: 'a'}
  );
+
 
 app.use(helmet());
 app.use(morgan('combined', { stream: accessLogStream }))
@@ -34,6 +37,10 @@ const Order = require("./models/orders");
 const Forgotpassword = require("./models/forgotpassword");
 const Downloadfiles = require("./models/downloadFiles"); 
 
+
+ const privateKey = fs.readFileSync('server.key');
+ const certificate = fs.readFileSync('server.cert');
+ 
 app.use("/user", userRoutes);
 app.use("/expense", expenseRoutes);
 app.use("/purchase", buyPremium);
@@ -56,7 +63,8 @@ Downloadfiles.belongsTo(User);
 sequelize
   .sync()
   .then((result) => {
-    app.listen(process.env.PORT);
+     https.createServer({key: privateKey, cert: certificate}, app).listen(process.env.PORT);
+    //app.listen(process.env.PORT);
   })
   .catch((err) => {
     console.log(err);

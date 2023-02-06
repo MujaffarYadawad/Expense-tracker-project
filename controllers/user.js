@@ -34,10 +34,12 @@ exports.postUser = async (req, res, next) => {
 
 exports.postLoginsUser = async (req, res, next) => {
   //console.log("e mai");
+  
   const email = req.body.email;
   const password = req.body.password;
 
   try {
+   
     const user = await User.findAll({ where: { email: email } });
 
     //console.log(res1.length)
