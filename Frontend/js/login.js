@@ -1,4 +1,3 @@
-
 async function login(event) {
   event.preventDefault();
   const email = event.target.email.value;
@@ -13,13 +12,15 @@ async function login(event) {
   console.log(loginDetails);
   try {
     console.log("rrr");
-    const res = await axios.post("https://localhost:3000/user/postLoginUser", loginDetails);
+    const res = await axios.post(
+      "http://localhost:3000/user/postLoginUser",
+      loginDetails
+    );
     //console.log(res)
     //console.log('cc')
-   
-   
+
     if (res.data.success == true) {
-     localStorage.setItem("token", res.data.token);
+      localStorage.setItem("token", res.data.token);
       window.alert("User Logged In Successfully");
 
       window.location.href = "../html/index.html";
