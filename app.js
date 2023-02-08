@@ -56,7 +56,6 @@ Downloadfiles.belongsTo(User);
 sequelize
   .sync()
   .then((result) => {
-    //http.createServer({key: privateKey, cert: certificate}, app).listen(process.env.PORT);
     app.listen(process.env.PORT);
   })
   .catch((err) => {
