@@ -1,13 +1,11 @@
-const path = require('path');
-const fs = require('fs')
+const path = require("path");
+const fs = require("fs");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const dotenv = require('dotenv')
-const helmet = require('helmet')
-const morgan = require('morgan')
-const https = require('https');
-
+const dotenv = require("dotenv");
+const helmet = require("helmet");
+const morgan = require("morgan");
 
 dotenv.config();
 const app = express();
@@ -18,13 +16,13 @@ const buyPremium = require("./routes/purchase");
 const premiumRoutes = require("./routes/premiumFeature");
 const resetPasswordRoutes = require("./routes/resetpassword");
 
-const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'),
- { flags: 'a'}
- );
-
+const accessLogStream = fs.createWriteStream(
+  path.join(__dirname, "access.log"),
+  { flags: "a" }
+);
 
 app.use(helmet());
-app.use(morgan('combined', { stream: accessLogStream }))
+app.use(morgan("combined", { stream: accessLogStream }));
 
 app.use(bodyParser.json({ extended: false }));
 app.use(cors());
@@ -35,12 +33,8 @@ const Expense = require("./models/expense");
 const User = require("./models/signup");
 const Order = require("./models/orders");
 const Forgotpassword = require("./models/forgotpassword");
-const Downloadfiles = require("./models/downloadFiles"); 
+const Downloadfiles = require("./models/downloadFiles");
 
-
- const privateKey = fs.readFileSync('server.key');
- const certificate = fs.readFileSync('server.cert');
- 
 app.use("/user", userRoutes);
 app.use("/expense", expenseRoutes);
 app.use("/purchase", buyPremium);
@@ -59,12 +53,10 @@ Forgotpassword.belongsTo(User);
 User.hasMany(Downloadfiles);
 Downloadfiles.belongsTo(User);
 
-
 sequelize
   .sync()
   .then((result) => {
-     https.createServer({key: privateKey, cert: certificate}, app).listen(process.env.PORT);
-    //app.listen(process.env.PORT);
+    app.listen(process.env.PORT);
   })
   .catch((err) => {
     console.log(err);
@@ -73,3 +65,5 @@ sequelize
 app.use((req, res, next) => {
   res.status(404).send("<h1>Page Not Found</h1>");
 });
+
+
