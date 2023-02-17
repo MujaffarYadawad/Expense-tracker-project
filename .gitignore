@@ -1,6 +1,5 @@
 .env 
 .gitignore
 node_modules
-server.key
-server.cert
+
 
