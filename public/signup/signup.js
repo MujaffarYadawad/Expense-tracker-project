@@ -30,3 +30,4 @@ async function signup(event) {
     document.body.innerHTML += `<div style="color:red;">${err}</div>`;
   }
 }
+
