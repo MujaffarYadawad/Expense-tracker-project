@@ -11,7 +11,7 @@ async function signup(event) {
   console.log(signupDetails);
   try {
     const res = await axios.post(
-      "http://localhost:3000/user/postUser",
+      "http://43.207.54.88:3000/user/postUser",
       signupDetails
     );
     console.log(res);
@@ -30,3 +30,4 @@ async function signup(event) {
     document.body.innerHTML += `<div style="color:red;">${err}</div>`;
   }
 }
+

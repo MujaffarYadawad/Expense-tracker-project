@@ -4,8 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const helmet = require("helmet");
-const morgan = require("morgan");
+ 
 
 dotenv.config();
 const app = express();
@@ -21,8 +20,7 @@ const accessLogStream = fs.createWriteStream(
   { flags: "a" }
 );
 
-app.use(helmet());
-app.use(morgan("combined", { stream: accessLogStream }));
+ 
 
 app.use(bodyParser.json({ extended: false }));
 app.use(cors());
@@ -41,6 +39,11 @@ app.use("/purchase", buyPremium);
 app.use("/premium", premiumRoutes);
 app.use("/password", resetPasswordRoutes);
 
+app.use((req, res) => {
+  console.log('url-->',  req.originalUrl)
+  res.sendFile(path.join(__dirname, `public/${req.originalUrl}`));
+});
+
 
 User.hasMany(Expense);
 Expense.belongsTo(User);
@@ -57,7 +60,7 @@ Downloadfiles.belongsTo(User);
 sequelize
   .sync()
   .then((result) => {
-    app.listen(process.env.PORT);
+    app.listen(3000);
   })
   .catch((err) => {
     console.log(err);
