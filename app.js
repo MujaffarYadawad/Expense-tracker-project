@@ -4,8 +4,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const helmet = require("helmet");
-const morgan = require("morgan");
+//const helmet = require("helmet");
+//const morgan = require("morgan");
 
 dotenv.config();
 const app = express();
@@ -21,8 +21,8 @@ const accessLogStream = fs.createWriteStream(
   { flags: "a" }
 );
 
-app.use(helmet());
-app.use(morgan("combined", { stream: accessLogStream }));
+// app.use(helmet());
+// app.use(morgan("combined", { stream: accessLogStream }));
 
 app.use(bodyParser.json({ extended: false }));
 app.use(cors());
