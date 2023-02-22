@@ -25,7 +25,7 @@ function saveToLocalStorage(event) {
     category,
   };
   axios
-    .post("http://43.207.54.88:3000/expense/postExpenses", obj, {
+    .post("http://54.178.65.202:3000/expense/postExpenses", obj, {
       headers: { Authorization: token },
     })
     .then((res) => {
@@ -46,7 +46,10 @@ function showLeaderboard() {
   document.getElementById("leaderboard").appendChild(inputElement);
   inputElement.onclick = async () => {
     // const token = localStorage.getItem("token");
-    const userLeaderBoardArray = await axios.get("http://43.207.54.88:3000/premium/showLeaderboard", { headers: { Authorization: token } });
+    const userLeaderBoardArray = await axios.get(
+      "http://54.178.65.202:3000/premium/showLeaderboard",
+      { headers: { Authorization: token } }
+    );
     //console.log("userLeader->>",userLeaderBoardArray);
     console.log("showLeaderBoard-->>");
     var leaderboardElem = document.getElementById("leaderboard");
@@ -104,7 +107,7 @@ async function getExpense(page, expPerPage) {
   console.log("exp page", expPerPage);
   try {
     const res = await axios.get(
-      `http://43.207.54.88:3000/expense/getAllExpenses?page=${page}&expPerPage=${expPerPage}`,
+      `http://54.178.65.202:3000/expense/getAllExpenses?page=${page}&expPerPage=${expPerPage}`,
       { headers: { Authorization: token } }
     );
     console.log("ress", res);
@@ -168,7 +171,7 @@ function editItem(expenseAmount, expenseDescription, category, itemId) {
 
 function deleteItem(itemId) {
   axios
-    .delete(`http://43.207.54.88:3000/expense/deleteExpenses/${itemId}`, {
+    .delete(`http://54.178.65.202:3000/expense/deleteExpenses/${itemId}`, {
       headers: { Authorization: token },
     })
 
@@ -188,7 +191,7 @@ async function download() {
   try {
     //console.log("dowload report");
     const response = await axios.get(
-      "http://43.207.54.88:3000/expense/download",
+      "http://54.178.65.202:3000/expense/download",
       {
         headers: { Authorization: token },
       }
@@ -254,7 +257,7 @@ function showPagination(
 
 document.getElementById("rzp-btn").onclick = async function (e) {
   response = await axios.get(
-    "http://43.207.54.88:3000/purchase/premiumMembership",
+    "http://54.178.65.202:3000/purchase/premiumMembership",
     { headers: { Authorization: token } }
   );
   console.log(response);
@@ -269,7 +272,7 @@ document.getElementById("rzp-btn").onclick = async function (e) {
 
     handler: async function (response) {
       await axios.post(
-        "http://43.207.54.88:3000/purchase/updateTransactonStatus",
+        "http://54.178.65.202:3000/purchase/updateTransactonStatus",
         {
           order_id: options.order_id,
           payment_id: response.razorpay_payment_id,
@@ -300,4 +303,3 @@ document.getElementById("rzp-btn").onclick = async function (e) {
 
 document.getElementById("leaderboard").style.display = "visible";
 document.getElementById("downloadexpense").style.display = "visible";
-
