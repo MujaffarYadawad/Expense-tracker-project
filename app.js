@@ -40,7 +40,7 @@ app.use("/premium", premiumRoutes);
 app.use("/password", resetPasswordRoutes);
 
 app.use((req, res) => {
-  console.log('url-->',  req.originalUrl)
+  console.log("url-->", req.originalUrl);
   res.sendFile(path.join(__dirname, `public/${req.originalUrl}`));
 });
 
