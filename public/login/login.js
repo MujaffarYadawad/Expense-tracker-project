@@ -3,7 +3,7 @@ async function login(event) {
   const email = event.target.email.value;
   const password = event.target.password.value;
 
-  //console.log(email)
+  console.log('hi cicid')
 
   const loginDetails = {
     email: email,
