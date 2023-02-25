@@ -13,7 +13,7 @@ async function login(event) {
   try {
     console.log("rrr");
     const res = await axios.post(
-      "http://54.178.65.202:3000/user/postLoginUser",
+      "http://54.95.147.222:3000/user/postLoginUser",
       loginDetails
     );
     //console.log(res)
