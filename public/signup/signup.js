@@ -11,7 +11,7 @@ async function signup(event) {
   console.log(signupDetails);
   try {
     const res = await axios.post(
-      "http://43.207.54.88:3000/user/postUser",
+      "http://54.95.147.222:3000/user/postUser",
       signupDetails
     );
     console.log(res);
