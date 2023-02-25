@@ -12,7 +12,7 @@ async function forgotpassword(event) {
 
   try {
     const res = await axios.post(
-      "http://54.178.65.202:3000/password/forgotpassword",
+      "http:// 54.95.147.222:3000/password/forgotpassword",
       userDetails
     );
 
