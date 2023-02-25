@@ -24,14 +24,7 @@ function saveToLocalStorage(event) {
     expenseDescription,
     category,
   };
-  axios
-<<<<<<< HEAD
-    .post("http://localhost:3000/expense/postExpenses", obj, {
-=======
-    .post("http://54.95.147.222:3000/expense/postExpenses", obj, {
->>>>>>> 7d854a8e3ec5166219c5affecf78c44f70da8151
-      headers: { Authorization: token },
-    })
+  axios.post("http://54.95.147.222:3000/expense/postExpenses", obj, {headers: { Authorization: token }})
     .then((res) => {
       showItemsOnScreen(res.data);
       console.log(res);
@@ -50,14 +43,7 @@ function showLeaderboard() {
   document.getElementById("leaderboard").appendChild(inputElement);
   inputElement.onclick = async () => {
     // const token = localStorage.getItem("token");
-    const userLeaderBoardArray = await axios.get(
-<<<<<<< HEAD
-      "http://localhost:3000/premium/showLeaderboard",
-=======
-      "http://54.95.147.222:3000/premium/showLeaderboard",
->>>>>>> 7d854a8e3ec5166219c5affecf78c44f70da8151
-      { headers: { Authorization: token } }
-    );
+    const userLeaderBoardArray = await axios.get( "http://54.95.147.222:3000/premium/showLeaderboard", { headers: { Authorization: token } });
     //console.log("userLeader->>",userLeaderBoardArray);
     console.log("showLeaderBoard-->>");
     var leaderboardElem = document.getElementById("leaderboard");
@@ -114,14 +100,7 @@ window.addEventListener("DOMContentLoaded", () => {
 async function getExpense(page, expPerPage) {
   console.log("exp page", expPerPage);
   try {
-    const res = await axios.get(
-<<<<<<< HEAD
-      `http://localhost:3000/expense/getAllExpenses?page=${page}&expPerPage=${expPerPage}`,
-=======
-      `http://54.95.147.222:3000/expense/getAllExpenses?page=${page}&expPerPage=${expPerPage}`,
->>>>>>> 7d854a8e3ec5166219c5affecf78c44f70da8151
-      { headers: { Authorization: token } }
-    );
+    const res = await axios.get(`http://54.95.147.222:3000/expense/getAllExpenses?page=${page}&expPerPage=${expPerPage}`, { headers: { Authorization: token } } );
     console.log("ress", res);
     parentNode.innerHTML = "";
 
@@ -182,14 +161,7 @@ function editItem(expenseAmount, expenseDescription, category, itemId) {
 }
 
 function deleteItem(itemId) {
-  axios
-<<<<<<< HEAD
-    .delete(`http://localhost:3000/expense/deleteExpenses/${itemId}`, {
-=======
-    .delete(`http://54.95.147.222:3000/expense/deleteExpenses/${itemId}`, {
->>>>>>> 7d854a8e3ec5166219c5affecf78c44f70da8151
-      headers: { Authorization: token },
-    })
+  axios.delete(`http://54.95.147.222:3000/expense/deleteExpenses/${itemId}`, { headers: { Authorization: token } })
 
     .then((res) => {
       removeFromScreen(itemId);
@@ -206,18 +178,9 @@ function removeFromScreen(itemId) {
 async function download() {
   try {
     //console.log("dowload report");
-<<<<<<< HEAD
-    const response = await axios.get("http://localhost:3000/expense/download", {
-      headers: { Authorization: token },
-    });
-=======
-    const response = await axios.get(
-      "http://54.95.147.222:3000/expense/download",
-      {
-        headers: { Authorization: token },
-      }
-    );
->>>>>>> 7d854a8e3ec5166219c5affecf78c44f70da8151
+ 
+    const response = await axios.get("http://54.95.147.222:3000/expense/download",  { headers: { Authorization: token } } );
+ 
 
     if (response.status === 200) {
       //the bcakend is essentially sending a download link
@@ -278,14 +241,7 @@ function showPagination(
 }
 
 document.getElementById("rzp-btn").onclick = async function (e) {
-  response = await axios.get(
-<<<<<<< HEAD
-    "http://localhost:3000/purchase/premiumMembership",
-=======
-    "http://54.95.147.222:3000/purchase/premiumMembership",
->>>>>>> 7d854a8e3ec5166219c5affecf78c44f70da8151
-    { headers: { Authorization: token } }
-  );
+  response = await axios.get( "http://54.95.147.222:3000/purchase/premiumMembership", { headers: { Authorization: token } } );
   console.log(response);
   var options = {
     key: response.data.key_id, // Enter the key id generated from dashboard
@@ -297,17 +253,14 @@ document.getElementById("rzp-btn").onclick = async function (e) {
     },
 
     handler: async function (response) {
-      await axios.post(
-<<<<<<< HEAD
-        "http://localhost:3000/purchase/updateTransactonStatus",
-=======
-        "http://54.95.147.222:3000/purchase/updateTransactonStatus",
->>>>>>> 7d854a8e3ec5166219c5affecf78c44f70da8151
+      await axios.post( "http://54.95.147.222:3000/purchase/updateTransactonStatus",
+ 
         {
           order_id: options.order_id,
           payment_id: response.razorpay_payment_id,
         },
         { headers: { Authorization: token } }
+        
       );
 
       alert("You are a Premiem User Now");
