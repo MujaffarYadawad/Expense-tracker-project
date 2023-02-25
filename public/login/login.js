@@ -13,11 +13,7 @@ async function login(event) {
   try {
     console.log("rrr");
     const res = await axios.post(
-<<<<<<< HEAD
-      "http://localhost:3000/user/postLoginUser",
-=======
       "http://54.95.147.222:3000/user/postLoginUser",
->>>>>>> 7d854a8e3ec5166219c5affecf78c44f70da8151
       loginDetails
     );
     //console.log(res)
