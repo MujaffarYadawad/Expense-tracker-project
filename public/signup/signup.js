@@ -11,7 +11,11 @@ async function signup(event) {
   console.log(signupDetails);
   try {
     const res = await axios.post(
+<<<<<<< HEAD
       "http://localhost:3000/user/postUser",
+=======
+      "http://54.95.147.222:3000/user/postUser",
+>>>>>>> 7d854a8e3ec5166219c5affecf78c44f70da8151
       signupDetails
     );
     console.log(res);
