@@ -12,7 +12,7 @@ function rowChange(event) {
   localStorage.setItem("expPerPage", rowValue);
   location.reload();
 }
-
+console.log('hello cicid')
 function saveToLocalStorage(event) {
   event.preventDefault();
   const expenseAmount = event.target.expenseAmount.value;
