@@ -12,10 +12,7 @@ async function login(event) {
   console.log(loginDetails);
   try {
     console.log("rrr");
-    const res = await axios.post(
-      "http:// 54.95.147.222:3000/user/postLoginUser",
-      loginDetails
-    );
+    const res = await axios.post("http:// 54.95.147.222:3000/user/postLoginUser", loginDetails);
     //console.log(res)
     //console.log('cc')
 
