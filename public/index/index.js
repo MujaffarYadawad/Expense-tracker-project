@@ -5,14 +5,14 @@ const parentNode = document.getElementById("listOfItems");
 
 function rowChange(event) {
   event.preventDefault();
-  console.log(event.target.value, "value");
-  console.log(typeof event.target.value);
+  //console.log(event.target.value, "value");
+ // console.log(typeof event.target.value);
   const rowValue = Number(event.target.value);
-  console.log(typeof rowValue);
+  //console.log(typeof rowValue);
   localStorage.setItem("expPerPage", rowValue);
   location.reload();
 }
-console.log('hello cicid')
+console.log("hello cicid");
 function saveToLocalStorage(event) {
   event.preventDefault();
   const expenseAmount = event.target.expenseAmount.value;
@@ -24,10 +24,7 @@ function saveToLocalStorage(event) {
     expenseDescription,
     category,
   };
-  axios
-    .post("http://54.95.147.222:3000/expense/postExpenses", obj, {
-      headers: { Authorization: token },
-    })
+  axios.post("http://54.95.147.222:3000/expense/postExpenses", obj, {headers: { Authorization: token }})
     .then((res) => {
       showItemsOnScreen(res.data);
       console.log(res);
@@ -46,10 +43,7 @@ function showLeaderboard() {
   document.getElementById("leaderboard").appendChild(inputElement);
   inputElement.onclick = async () => {
     // const token = localStorage.getItem("token");
-    const userLeaderBoardArray = await axios.get(
-      "http://54.95.147.222:3000/premium/showLeaderboard",
-      { headers: { Authorization: token } }
-    );
+    const userLeaderBoardArray = await axios.get("http://54.95.147.222:3000/premium/showLeaderboard",{ headers: { Authorization: token } });
     //console.log("userLeader->>",userLeaderBoardArray);
     console.log("showLeaderBoard-->>");
     var leaderboardElem = document.getElementById("leaderboard");
@@ -91,7 +85,7 @@ window.addEventListener("DOMContentLoaded", () => {
   let page = 1;
   const rowValue = localStorage.getItem("expPerPage");
   let expPerPage = rowValue;
-  console.log("expense per page-->", expPerPage);
+// console.log("expense per page-->", expPerPage);
   getExpense(page, expPerPage);
 
   // console.log('decodeToken-->',decodeToken)
@@ -104,13 +98,10 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 async function getExpense(page, expPerPage) {
-  console.log("exp page", expPerPage);
+ // console.log("exp page", expPerPage);
   try {
-    const res = await axios.get(
-      `http://54.95.147.222:3000/expense/getAllExpenses?page=${page}&expPerPage=${expPerPage}`,
-      { headers: { Authorization: token } }
-    );
-    console.log("ress", res);
+    const res = await axios.get(`http://54.95.147.222:3000/expense/getAllExpenses?page=${page}&expPerPage=${expPerPage}`, { headers: { Authorization: token } } );
+    //console.log("ress", res);
     parentNode.innerHTML = "";
 
     for (var i = 0; i < res.data.val.length; i++) {
@@ -119,7 +110,7 @@ async function getExpense(page, expPerPage) {
     for (var i = 0; i < res.data.downloadedFilesData.length; i++) {
       showDownloadedFilesOnScreen(res.data.downloadedFilesData[i]);
     }
-    console.log(res);
+    //console.log(res);
 
     showPagination(
       res.data.currentPage,
@@ -170,10 +161,7 @@ function editItem(expenseAmount, expenseDescription, category, itemId) {
 }
 
 function deleteItem(itemId) {
-  axios
-    .delete(`http://54.95.147.222:3000/expense/deleteExpenses/${itemId}`, {
-      headers: { Authorization: token },
-    })
+  axios.delete(`http://54.95.147.222:3000/expense/deleteExpenses/${itemId}`, { headers: { Authorization: token } })
 
     .then((res) => {
       removeFromScreen(itemId);
@@ -190,7 +178,8 @@ function removeFromScreen(itemId) {
 async function download() {
   try {
     //console.log("dowload report");
-    const response = await axios.get("http://54.95.147.222:3000/expense/download", {headers: { Authorization: token },});
+    const response = await axios.get("http://54.95.147.222:3000/expense/download",
+      { headers: { Authorization: token }});
 
     if (response.status === 200) {
       //the bcakend is essentially sending a download link
@@ -252,7 +241,7 @@ function showPagination(
 
 document.getElementById("rzp-btn").onclick = async function (e) {
   response = await axios.get("http://54.95.147.222:3000/purchase/premiumMembership",{ headers: { Authorization: token } });
-  console.log(response);
+  //console.log(response);
   var options = {
     key: response.data.key_id, // Enter the key id generated from dashboard
     order_id: response.data.order.id, //for one timef payment

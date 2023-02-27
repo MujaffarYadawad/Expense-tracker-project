@@ -10,7 +10,7 @@ async function signup(event) {
   };
   console.log(signupDetails);
   try {
-    const res = await axios.post("http://54.95.147.222:3000/user/postUser",signupDetails);
+    const res = await axios.post("http://54.95.147.222:3000/user/postUser", signupDetails);
     console.log(res);
 
     if (res.data.alreadyexisting === false) {
