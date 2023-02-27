@@ -14,7 +14,7 @@ async function login(event) {
     console.log("rrr");
     const res = await axios.post("http://54.95.147.222:3000/user/postLoginUser", loginDetails);
     //console.log(res)
-    //console.log('cc')
+    console.log('cc')
 
     if (res.data.success == true) {
       localStorage.setItem("token", res.data.token);
