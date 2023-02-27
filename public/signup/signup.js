@@ -10,15 +10,12 @@ async function signup(event) {
   };
   console.log(signupDetails);
   try {
-    const res = await axios.post(
-      "http:// 54.95.147.222:3000/user/postUser",
-      signupDetails
-    );
+    const res = await axios.post("http:// 54.95.147.222:3000/user/postUser",signupDetails);
     console.log(res);
 
     if (res.data.alreadyexisting === false) {
       //if user not existed then only creat new user
-      console.log("ssuc");
+      //console.log("ssuc");
       window.alert("Account is crated succussfully");
       window.location.href = "../login/login.html"; // redirect to login page
       console.log("login");
