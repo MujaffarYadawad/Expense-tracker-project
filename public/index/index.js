@@ -253,12 +253,9 @@ document.getElementById("rzp-btn").onclick = async function (e) {
 
     handler: async function (response) {
       await axios.post("http://54.95.147.222:3000/purchase/updateTransactonStatus",
-        {
-          order_id: options.order_id,
-          payment_id: response.razorpay_payment_id,
-        },
-        { headers: { Authorization: token } }
-      );
+       { order_id: options.order_id, payment_id: response.razorpay_payment_id}, 
+       { headers: { Authorization: token }} 
+       );
 
       alert("You are a Premiem User Now");
 
@@ -267,7 +264,7 @@ document.getElementById("rzp-btn").onclick = async function (e) {
       console.log("pp user");
       localStorage.setItem("isadmin", true);
       showLeaderboard();
-    },
+    }
   };
 
   const rzp1 = new Razorpay(options);
