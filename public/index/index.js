@@ -252,7 +252,7 @@ document.getElementById("rzp-btn").onclick = async function (e) {
     },
 
     handler: async function (response) {
-      await axios.post("http:// 54.95.147.222:3000/purchase/updateTransactonStatus",
+      await axios.post("http://54.95.147.222:3000/purchase/updateTransactonStatus",
         {
           order_id: options.order_id,
           payment_id: response.razorpay_payment_id,
